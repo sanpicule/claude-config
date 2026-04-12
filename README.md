@@ -18,21 +18,35 @@ claude-config/
 
 ## 使い方
 
-### curl ワンライナー（推奨）
+**推奨は「A. プロジェクトルートから実行」** の方式です。迷ったらこれを使ってください。
 
-リポジトリを clone せずにそのまま適用できる:
+### A. プロジェクトルートから実行（推奨）
+
+導入したいプロジェクトのルートに移動してから実行する:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh | bash -s /path/to/project
+cd /path/to/project
+curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh | bash -s .
 ```
 
 例:
 
 ```bash
+cd ~/Documents/my-app
+curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh | bash -s .
+```
+
+### B. パスを指定して実行
+
+任意のディレクトリから対象プロジェクトを絶対パスで指定する:
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh | bash -s ~/Documents/my-app
 ```
 
-中身を確認してから実行したい場合:
+### C. 中身を確認してから実行
+
+パイプ to bash を避けたい場合:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh -o /tmp/setup.sh
@@ -40,7 +54,9 @@ less /tmp/setup.sh
 bash /tmp/setup.sh ~/Documents/my-app
 ```
 
-### ローカル clone して実行
+### D. ローカル clone して実行
+
+このリポジトリ自体を手元で編集したい場合:
 
 ```bash
 git clone https://github.com/sanpicule/claude-config.git
@@ -49,7 +65,7 @@ bash claude-config/scripts/setup-project.sh /path/to/project
 
 ### 適用結果
 
-どちらの方法でも以下が配置される（既存ファイルは上書きされずスキップ）:
+いずれの方法でも以下が配置される（既存ファイルは上書きされずスキップ）:
 
 - `<プロジェクト>/CLAUDE.md`
 - `<プロジェクト>/.claude/settings.json`
