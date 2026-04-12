@@ -5,29 +5,12 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_DIR="$(dirname "$SCRIPT_DIR")"
 
-# 引数チェック
 if [ $# -lt 1 ]; then
-    echo "使い方: $0 <プロジェクトパス> [テンプレート名]"
-    echo ""
-    echo "利用可能なテンプレート:"
-    for dir in "$REPO_DIR/templates"/*/; do
-        echo "  - $(basename "$dir")"
-    done
+    echo "使い方: $0 <プロジェクトパス>"
     exit 1
 fi
 
 PROJECT_DIR="$1"
-TEMPLATE="${2:-general}"
-TEMPLATE_DIR="$REPO_DIR/templates/$TEMPLATE"
-
-if [ ! -d "$TEMPLATE_DIR" ]; then
-    echo "エラー: テンプレート '$TEMPLATE' が見つかりません"
-    echo "利用可能なテンプレート:"
-    for dir in "$REPO_DIR/templates"/*/; do
-        echo "  - $(basename "$dir")"
-    done
-    exit 1
-fi
 
 if [ ! -d "$PROJECT_DIR" ]; then
     echo "エラー: プロジェクトディレクトリ '$PROJECT_DIR' が見つかりません"
@@ -38,25 +21,24 @@ CLAUDE_DIR="$PROJECT_DIR/.claude"
 mkdir -p "$CLAUDE_DIR"
 
 echo "=== プロジェクト .claude セットアップ ==="
-echo "テンプレート: $TEMPLATE"
 echo "対象: $PROJECT_DIR"
 
-# テンプレートファイルをコピー
-for file in "$TEMPLATE_DIR"/*; do
-    filename=$(basename "$file")
-    target="$CLAUDE_DIR/$filename"
-
-    # CLAUDE.mdとAGENTS.mdはプロジェクトルートに配置
-    if [ "$filename" = "CLAUDE.md" ] || [ "$filename" = "AGENTS.md" ]; then
-        target="$PROJECT_DIR/$filename"
-    fi
-
-    if [ -f "$target" ]; then
-        echo "スキップ（既存）: $filename"
+# CLAUDE.md はプロジェクトルートに配置
+copy_if_absent() {
+    local src="$1"
+    local dst="$2"
+    local name
+    name=$(basename "$src")
+    if [ -f "$dst" ]; then
+        echo "スキップ（既存）: $name"
     else
-        cp "$file" "$target"
-        echo "作成: $filename"
+        cp "$src" "$dst"
+        echo "作成: $dst"
     fi
-done
+}
+
+copy_if_absent "$REPO_DIR/CLAUDE.md" "$PROJECT_DIR/CLAUDE.md"
+copy_if_absent "$REPO_DIR/.claude/settings.json" "$CLAUDE_DIR/settings.json"
+copy_if_absent "$REPO_DIR/.claude/settings.local.json" "$CLAUDE_DIR/settings.local.json"
 
 echo "セットアップ完了"

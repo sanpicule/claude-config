@@ -13,3 +13,5 @@ Thumbs.db
 
 # セッションデータ（管理不要）
 *.jsonl
+
+.claude/settings.local.json
