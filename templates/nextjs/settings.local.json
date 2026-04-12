@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next *)",
+      "Bash(npm install *)",
+      "Bash(npm test *)",
+      "Bash(npm audit *)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}
