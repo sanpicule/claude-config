@@ -18,20 +18,61 @@ claude-config/
 
 ## 使い方
 
-### プロジェクトに適用
+### curl ワンライナー（推奨）
+
+リポジトリを clone せずにそのまま適用できる:
 
 ```bash
-bash scripts/setup-project.sh /path/to/project
+curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh | bash -s /path/to/project
 ```
 
-以下が配置される（既存ファイルは上書きされずスキップ）:
+例:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh | bash -s ~/Documents/my-app
+```
+
+中身を確認してから実行したい場合:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sanpicule/claude-config/main/scripts/setup-project.sh -o /tmp/setup.sh
+less /tmp/setup.sh
+bash /tmp/setup.sh ~/Documents/my-app
+```
+
+### ローカル clone して実行
+
+```bash
+git clone https://github.com/sanpicule/claude-config.git
+bash claude-config/scripts/setup-project.sh /path/to/project
+```
+
+### 適用結果
+
+どちらの方法でも以下が配置される（既存ファイルは上書きされずスキップ）:
 
 - `<プロジェクト>/CLAUDE.md`
 - `<プロジェクト>/.claude/settings.json`
 - `<プロジェクト>/.claude/settings.local.json`
 
-### テンプレートの編集
+## テンプレートの編集
 
-ルートの `CLAUDE.md` と `.claude/settings.json` を直接編集してコミットする。以降 `setup-project.sh` で適用されるのは編集後の内容になる。
+ルートの `CLAUDE.md` と `.claude/settings.json` を直接編集してコミット・push する。以降 `setup-project.sh` で適用されるのは編集後の内容になる。
 
-`settings.local.json` は個人設定のため `.gitignore` で除外されている。テンプレートとしてはリポジトリに含めているが、実プロジェクトでの変更はコミットされない。
+`.claude/settings.local.json` は個人設定のため適用先では `.gitignore` で除外する運用を想定している。
+
+## 環境変数によるカスタマイズ
+
+fork して使う場合は環境変数で参照先を切り替えられる:
+
+| 変数名 | デフォルト | 用途 |
+|---|---|---|
+| `CLAUDE_CONFIG_REPO` | `sanpicule/claude-config` | 参照するリポジトリ |
+| `CLAUDE_CONFIG_BRANCH` | `main` | 参照するブランチ |
+
+例:
+
+```bash
+CLAUDE_CONFIG_REPO=myname/claude-config \
+  curl -fsSL https://raw.githubusercontent.com/myname/claude-config/main/scripts/setup-project.sh | bash -s ~/my-app
+```
