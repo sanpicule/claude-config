@@ -1,8 +1,106 @@
 {
+  // Claude Code のプロジェクト共有設定 (JSONC: コメント可)
+  // 必要な項目のコメントを外すと有効になる。permissions の allow/ask/deny は上から評価される。
+
   "permissions": {
     "deny": [
-      "Read(./.env)",
-      "Read(./.env.*)"
+      "Read(./.env)",                              // .env の直接読み取りを禁止 (秘匿情報保護)
+      "Read(./.env.*)"                             // .env.local / .env.production などの派生も禁止
+      // "Read(./secrets/**)",                     // secrets/ 配下すべての読み取りを禁止
+      // "Read(**/*.pem)",                         // 秘密鍵 (PEM) の読み取りを禁止
+      // "Read(**/*.key)",                         // 秘密鍵 (.key) の読み取りを禁止
+      // "Read(**/id_rsa)",                        // SSH 秘密鍵の読み取りを禁止
+      // "Write(./.env)",                          // .env への書き込みを禁止
+      // "Write(./.env.*)",                        // .env 派生への書き込みを禁止
+      // "Edit(./.env)",                           // .env の編集を禁止
+      // "Bash(rm -rf:*)",                         // rm -rf の実行を禁止 (破壊的)
+      // "Bash(sudo:*)",                           // sudo を伴うすべてのコマンドを禁止
+      // "Bash(git push --force:*)",               // force push を禁止 (履歴破壊)
+      // "Bash(git push -f:*)",                    // force push (短縮形) を禁止
+      // "Bash(git reset --hard:*)",               // git reset --hard を禁止 (ローカル変更消失)
+      // "Bash(git clean -fd:*)",                  // 未追跡ファイル削除を禁止
+      // "Bash(git commit --no-verify:*)",         // pre-commit hook のバイパスを禁止
+      // "Bash(npm publish:*)",                    // npm publish を禁止 (誤公開防止)
+      // "Bash(pnpm publish:*)",                   // pnpm publish を禁止
+      // "Bash(yarn publish:*)",                   // yarn publish を禁止
+      // "Bash(docker push:*)",                    // docker image の push を禁止
+      // "Bash(terraform apply:*)",                // インフラへの適用を禁止
+      // "Bash(terraform destroy:*)",              // インフラ破壊を禁止
+      // "Bash(kubectl delete:*)",                 // k8s リソース削除を禁止
+      // "Bash(aws * delete*:*)",                  // AWS リソース削除系を禁止
+      // "Bash(gh pr merge:*)",                    // PR 自動マージを禁止
+      // "WebFetch(domain:*.internal)"             // 社内ドメインへの fetch を禁止
+    ],
+
+    "ask": [
+      // "Write(**)",                              // すべての書き込み時に確認
+      // "Edit(**)",                               // すべての編集時に確認
+      // "Bash(git push:*)",                       // push 前に確認 (意図しない公開防止)
+      // "Bash(git commit:*)",                     // commit 前に確認
+      // "Bash(git merge:*)",                      // merge 前に確認 (履歴の衝突)
+      // "Bash(git rebase:*)",                     // rebase 前に確認
+      // "Bash(git checkout:*)",                   // ブランチ切替前に確認 (未コミット変更消失の恐れ)
+      // "Bash(rm:*)",                             // 単純な rm でも確認する
+      // "Bash(mv:*)",                             // ファイル移動前に確認
+      // "Bash(npm install:*)",                    // 依存追加時に確認 (lockfile の変更)
+      // "Bash(pnpm add:*)",                       // pnpm での依存追加時に確認
+      // "Bash(yarn add:*)",                       // yarn での依存追加時に確認
+      // "Bash(pip install:*)",                    // Python パッケージ追加時に確認
+      // "Bash(brew install:*)",                   // Homebrew インストール時に確認
+      // "Bash(docker run:*)",                     // コンテナ起動時に確認
+      // "Bash(docker compose up:*)",              // compose 起動時に確認
+      // "Bash(curl:*)",                           // 外部通信を伴う curl に確認
+      // "Bash(wget:*)",                           // wget に確認
+      // "Bash(ssh:*)",                            // SSH 接続に確認
+      // "Bash(psql:*)",                           // DB 接続に確認
+      // "Bash(prisma migrate:*)",                 // マイグレーション実行に確認
+      // "Bash(npx prisma db push:*)",             // DB スキーマ push に確認
+      // "WebFetch(**)"                            // すべての外部 fetch に確認
+    ],
+
+    "allow": [
+      // "Read(**)",                               // 任意ファイルの読み取りを許可 (deny は優先)
+      // "Bash(ls:*)",                             // ls を許可
+      // "Bash(pwd)",                              // pwd を許可
+      // "Bash(cat:*)",                            // cat を許可 (※ Read ツール推奨)
+      // "Bash(echo:*)",                           // echo を許可
+      // "Bash(git status:*)",                     // git status を許可
+      // "Bash(git diff:*)",                       // git diff を許可
+      // "Bash(git log:*)",                        // git log を許可
+      // "Bash(git branch:*)",                     // git branch 参照系を許可
+      // "Bash(git show:*)",                       // git show を許可
+      // "Bash(git add:*)",                        // git add を許可
+      // "Bash(git stash:*)",                      // stash を許可
+      // "Bash(git pull:*)",                       // pull を許可
+      // "Bash(git fetch:*)",                      // fetch を許可
+      // "Bash(npm run:*)",                        // npm scripts の実行を許可
+      // "Bash(pnpm run:*)",                       // pnpm scripts の実行を許可
+      // "Bash(yarn:*)",                           // yarn コマンドを許可
+      // "Bash(npx tsc:*)",                        // 型チェックを許可
+      // "Bash(npm test:*)",                       // テスト実行を許可
+      // "Bash(pnpm test:*)",                      // pnpm テスト実行を許可
+      // "Bash(vitest:*)",                         // vitest 実行を許可
+      // "Bash(jest:*)",                           // jest 実行を許可
+      // "Bash(eslint:*)",                         // lint 実行を許可
+      // "Bash(prettier:*)",                       // prettier 実行を許可
+      // "Bash(make:*)",                           // make コマンドを許可
+      // "Bash(mkdir:*)",                          // ディレクトリ作成を許可
+      // "Bash(find:*)",                           // find を許可 (※ Glob ツール推奨)
+      // "WebFetch(domain:github.com)",            // github.com への fetch を許可
+      // "WebFetch(domain:*.npmjs.com)",           // npm レジストリへの fetch を許可
+      // "WebFetch(domain:docs.anthropic.com)"     // Anthropic ドキュメントへの fetch を許可
     ]
   }
+
+  // その他よく使う設定 (必要に応じて有効化):
+  // "model": "claude-sonnet-4-6",                 // 使用するモデルを固定
+  // "env": {                                      // セッションで使用する環境変数
+  //   "NODE_ENV": "development"
+  // },
+  // "includeCoAuthoredBy": true,                  // コミットに Co-Authored-By を自動付与
+  // "cleanupPeriodDays": 30,                      // チャット履歴の保持日数
+  // "hooks": {                                    // イベントフック (詳細はドキュメント参照)
+  //   "PreToolUse": [],
+  //   "PostToolUse": []
+  // }
 }

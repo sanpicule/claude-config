@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "__example_filesystem__": {
+      "__comment__": "例: ローカルファイルシステムへアクセスする MCP サーバー。キー名から __ を外し、args のパスを実在のディレクトリに書き換えて使用する。",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/absolute/path/to/allowed/dir"]
+    },
+    "__example_github__": {
+      "__comment__": "例: GitHub 公式 MCP サーバー。GITHUB_PERSONAL_ACCESS_TOKEN を環境変数で渡す。トークンは絶対にコミットしない。",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "__example_postgres__": {
+      "__comment__": "例: PostgreSQL への読み取り専用接続。接続文字列はダミー。本番 DB を指定しないこと。",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres", "postgresql://user:pass@localhost:5432/dbname"]
+    },
+    "__example_http__": {
+      "__comment__": "例: HTTP(SSE) 経由の MCP サーバー。type と url を指定する形式。",
+      "type": "http",
+      "url": "https://example.com/mcp"
+    }
+  }
+}

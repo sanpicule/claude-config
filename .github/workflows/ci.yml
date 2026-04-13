@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate-configs:
+    name: 設定ファイルの構文チェック
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: json5 をインストール (JSONC パース用)
+        run: pip install --quiet json5
+
+      - name: .mcp.json (strict JSON) を検証
+        run: python -m json.tool .mcp.json > /dev/null
+
+      - name: .claude/settings.json (JSONC) を検証
+        run: python -c "import json5, sys; json5.load(open(sys.argv[1]))" .claude/settings.json
+
+      - name: .claude/settings.local.json (JSONC) を検証
+        run: python -c "import json5, sys; json5.load(open(sys.argv[1]))" .claude/settings.local.json
+
+      - name: CLAUDE.md の存在と非空を確認
+        run: test -s CLAUDE.md
+
+  shell-lint:
+    name: シェルスクリプトの静的解析
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ShellCheck
+        run: shellcheck scripts/setup-project.sh
+
+      - name: bash 構文チェック
+        run: bash -n scripts/setup-project.sh
+
+  integration-test:
+    name: setup-project.sh の統合テスト
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 一時プロジェクトにテンプレートを適用
+        run: |
+          TEST_DIR="$(mktemp -d)"
+          echo "TEST_DIR=$TEST_DIR" >> "$GITHUB_ENV"
+          bash scripts/setup-project.sh "$TEST_DIR"
+
+      - name: 期待ファイルが配置されているか確認
+        run: |
+          test -f "$TEST_DIR/CLAUDE.md"
+          test -f "$TEST_DIR/.claude/settings.json"
+          test -f "$TEST_DIR/.claude/settings.local.json"
+          echo "すべての期待ファイルが配置されました"
+
+      - name: 再実行で既存ファイルがスキップされるか確認
+        run: |
+          OUTPUT="$(bash scripts/setup-project.sh "$TEST_DIR")"
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "スキップ（既存）"
