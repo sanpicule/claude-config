@@ -13,3 +13,7 @@ Thumbs.db
 
 # セッションデータ（管理不要）
 *.jsonl
+
+# ブランチ保護ルール (メンテナのみ保持。公開不要)
+scripts/branch-protection.json
+scripts/apply-branch-protection.sh
