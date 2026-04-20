@@ -23,7 +23,9 @@ if [ ! -d "$PROJECT_DIR" ]; then
 fi
 
 CLAUDE_DIR="$PROJECT_DIR/.claude"
+SKILLS_DIR="$CLAUDE_DIR/skills"
 mkdir -p "$CLAUDE_DIR"
+mkdir -p "$SKILLS_DIR"
 
 echo "=== プロジェクト .claude セットアップ ==="
 echo "対象: $PROJECT_DIR"
@@ -59,5 +61,7 @@ fetch_if_absent() {
 fetch_if_absent "CLAUDE.md" "$PROJECT_DIR/CLAUDE.md"
 fetch_if_absent ".claude/settings.json" "$CLAUDE_DIR/settings.json"
 fetch_if_absent ".claude/settings.local.json" "$CLAUDE_DIR/settings.local.json"
+fetch_if_absent ".claude/skills/example-code-reviewer.md" "$SKILLS_DIR/example-code-reviewer.md"
+fetch_if_absent ".claude/skills/example-test-writer.md" "$SKILLS_DIR/example-test-writer.md"
 
 echo "セットアップ完了"
