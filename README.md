@@ -146,6 +146,10 @@ CLAUDE_CONFIG_REPO=myname/claude-config \
   curl -fsSL https://raw.githubusercontent.com/myname/claude-config/main/scripts/setup-project.sh | bash -s ~/my-app
 ```
 
+## 変更履歴
+
+リリースごとの変更点は [CHANGELOG.md](CHANGELOG.md) を参照してください。
+
 ## ライセンス
 
 [MIT License](LICENSE) のもとで公開しています。商用・非商用を問わず自由に利用・改変・再配布いただけます。
