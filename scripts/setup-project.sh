@@ -24,8 +24,6 @@ fi
 
 CLAUDE_DIR="$PROJECT_DIR/.claude"
 SKILLS_DIR="$CLAUDE_DIR/skills"
-mkdir -p "$CLAUDE_DIR"
-mkdir -p "$SKILLS_DIR"
 
 echo "=== プロジェクト .claude セットアップ ==="
 echo "対象: $PROJECT_DIR"
@@ -42,17 +40,20 @@ fi
 fetch_if_absent() {
     local rel_path="$1"
     local dst="$2"
-    local name
-    name=$(basename "$dst")
 
     if [ -f "$dst" ]; then
-        echo "スキップ（既存）: $name"
+        echo "スキップ（既存）: $rel_path"
         return
     fi
+
+    mkdir -p "$(dirname "$dst")"
 
     if [ "$USE_LOCAL" = true ] && [ -f "$REPO_DIR/$rel_path" ]; then
         cp "$REPO_DIR/$rel_path" "$dst"
     else
+        if [ "$USE_LOCAL" = true ]; then
+            echo "ローカルに $rel_path が無いためリモートから取得します"
+        fi
         curl -fsSL "${RAW_BASE}/${rel_path}" -o "$dst"
     fi
     echo "作成: $dst"
@@ -61,7 +62,7 @@ fetch_if_absent() {
 fetch_if_absent "CLAUDE.md" "$PROJECT_DIR/CLAUDE.md"
 fetch_if_absent ".claude/settings.json" "$CLAUDE_DIR/settings.json"
 fetch_if_absent ".claude/settings.local.json" "$CLAUDE_DIR/settings.local.json"
-fetch_if_absent ".claude/skills/example-code-reviewer.md" "$SKILLS_DIR/example-code-reviewer.md"
-fetch_if_absent ".claude/skills/example-test-writer.md" "$SKILLS_DIR/example-test-writer.md"
+fetch_if_absent ".claude/skills/example-code-reviewer/SKILL.md" "$SKILLS_DIR/example-code-reviewer/SKILL.md"
+fetch_if_absent ".claude/skills/example-test-writer/SKILL.md" "$SKILLS_DIR/example-test-writer/SKILL.md"
 
 echo "セットアップ完了"

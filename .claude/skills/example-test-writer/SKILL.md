@@ -8,7 +8,7 @@ description: >
   単体テスト・統合テストを適切な粒度で作成し、カバレッジを高める。
 
 # 使用モデル (省略可)
-# model: claude-sonnet-4-5
+# model: claude-sonnet-4-6
 ---
 
 # テストライター
