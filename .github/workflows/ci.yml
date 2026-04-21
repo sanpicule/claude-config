@@ -56,14 +56,14 @@ jobs:
           test -f "$TEST_DIR/CLAUDE.md"
           test -f "$TEST_DIR/.claude/settings.json"
           test -f "$TEST_DIR/.claude/settings.local.json"
-          test -f "$TEST_DIR/.claude/skills/example-code-reviewer.md"
-          test -f "$TEST_DIR/.claude/skills/example-test-writer.md"
+          test -f "$TEST_DIR/.claude/skills/example-code-reviewer/SKILL.md"
+          test -f "$TEST_DIR/.claude/skills/example-test-writer/SKILL.md"
           echo "すべての期待ファイルが配置されました"
 
       - name: 再実行で既存ファイルがスキップされるか確認
         run: |
           OUTPUT="$(bash scripts/setup-project.sh "$TEST_DIR")"
           echo "$OUTPUT"
-          echo "$OUTPUT" | grep -q "スキップ（既存）: CLAUDE.md"
-          echo "$OUTPUT" | grep -q "スキップ（既存）: example-code-reviewer.md"
-          echo "$OUTPUT" | grep -q "スキップ（既存）: example-test-writer.md"
+          echo "$OUTPUT" | grep -qE "^スキップ（既存）: CLAUDE\.md$"
+          echo "$OUTPUT" | grep -qE "^スキップ（既存）: \.claude/skills/example-code-reviewer/SKILL\.md$"
+          echo "$OUTPUT" | grep -qE "^スキップ（既存）: \.claude/skills/example-test-writer/SKILL\.md$"
