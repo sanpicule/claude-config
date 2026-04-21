@@ -50,7 +50,7 @@ fetch_if_absent() {
         return
     fi
 
-    if [ "$USE_LOCAL" = true ]; then
+    if [ "$USE_LOCAL" = true ] && [ -f "$REPO_DIR/$rel_path" ]; then
         cp "$REPO_DIR/$rel_path" "$dst"
     else
         curl -fsSL "${RAW_BASE}/${rel_path}" -o "$dst"
