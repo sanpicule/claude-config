@@ -5,6 +5,21 @@
 フォーマットは [Keep a Changelog 1.1.0](https://keepachangelog.com/ja/1.1.0/) に、
 バージョニングは [Semantic Versioning 2.0.0](https://semver.org/lang/ja/) に準拠します。
 
+## [0.3.0](https://github.com/sanpicule/claude-config/compare/claude-config-v0.2.0...claude-config-v0.3.0) (2026-04-22)
+
+
+### Features
+
+* .claude/skills テンプレートの追加 ([bb98696](https://github.com/sanpicule/claude-config/commit/bb98696477571271a7b84dbd23f3f31a49167f51))
+* Claude Code設定管理リポジトリの初期構築 ([bc2fc82](https://github.com/sanpicule/claude-config/commit/bc2fc82d9877fcaeda1060c7b28d3c5d970d2db0))
+* curl経由でのセットアップに対応 ([712ed0b](https://github.com/sanpicule/claude-config/commit/712ed0b8e7f18a4645b23926bee6435c4ddfba36))
+* テンプレート整備・CI・ライセンスを追加 ([5a6caaa](https://github.com/sanpicule/claude-config/commit/5a6caaabb86add0e8b730fbe94bd897201bae482))
+
+
+### Bug Fixes
+
+* USE_LOCAL フォールバックと統合テストのスキル検証を追加 ([0e0edad](https://github.com/sanpicule/claude-config/commit/0e0edad3e12a62157a140f7ad543a848bf936935))
+
 ## [Unreleased]
 
 ## [0.2.0] - 2026-04-21
