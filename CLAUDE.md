@@ -58,7 +58,8 @@
 
 ### コミットメッセージ: Conventional Commits
 
-- フォーマット: `<type>: <subject>`（必要に応じて本文で理由や背景を記述）
+- フォーマット: `<type>: <subject>` または `<type>(<scope>): <subject>`（scope は任意。必要に応じて本文で理由や背景を記述）
+  - 例: `feat: add search filters`, `fix(api): handle timeout`, `chore(main): release 1.2.3`
 - 主な `type`:
   - `feat:` 新機能追加
   - `fix:` バグ修正
@@ -67,7 +68,7 @@
   - `test:` テスト追加・修正
   - `ci:` CI / GitHub Actions 関連
   - `chore:` 上記に当てはまらない雑務
-- 破壊的変更は `feat!:` / `fix!:` または本文に `BREAKING CHANGE:` を明記する。
+- 破壊的変更は `<type>!:` または `<type>(<scope>)!:`、もしくは本文に `BREAKING CHANGE:` を明記する。
 - このルールは `release-please` 等の自動リリースツールと連動して、バージョン番号と `CHANGELOG.md` の決定に使われる。
 
 ### Pull Request
