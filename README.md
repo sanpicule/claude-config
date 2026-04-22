@@ -150,6 +150,30 @@ CLAUDE_CONFIG_REPO=myname/claude-config \
 
 リリースごとの変更点は [CHANGELOG.md](CHANGELOG.md) を参照してください。
 
+## リリース運用（メンテナ向け）
+
+バージョニングと `CHANGELOG.md` / GitHub Release は [release-please](https://github.com/googleapis/release-please) により自動化されています。メンテナが手動でタグや Release を作成する必要はありません。
+
+### フロー
+
+1. [Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/) 形式（`feat:` / `fix:` など）で main にコミットする（PR マージ）。
+2. release-please GitHub Action が **release PR**（`chore(main): release x.y.z`）を自動で作成／更新する。
+3. release PR をマージすると以下が自動実行される:
+   - `CHANGELOG.md` の追記
+   - `vx.y.z` タグの作成
+   - GitHub Release の作成
+
+### コミット種別とバージョンアップの対応
+
+| Prefix 例 | バージョンへの影響 |
+|-----------|--------------------|
+| `feat: ...` | minor bump（例: 0.2.0 → 0.3.0） |
+| `fix: ...` | patch bump（例: 0.2.0 → 0.2.1） |
+| `feat!: ...` / 本文に `BREAKING CHANGE:` | major bump（v1.0.0 以降に有効） |
+| `docs:` / `chore:` / `ci:` / `refactor:` / `test:` / `style:` / `perf:` | リリースなし |
+
+> v0.x の間は `feat:` でも minor bump に留まります（`bump-minor-pre-major: true` 設定）。
+
 ## ライセンス
 
 [MIT License](LICENSE) のもとで公開しています。商用・非商用を問わず自由に利用・改変・再配布いただけます。
