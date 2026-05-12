@@ -21,8 +21,13 @@ jobs:
       - name: .claude/settings.json (JSONC) を検証
         run: python -c "import json5, sys; json5.load(open(sys.argv[1]))" .claude/settings.json
 
-      - name: .claude/settings.local.json (JSONC) を検証
-        run: python -c "import json5, sys; json5.load(open(sys.argv[1]))" .claude/settings.local.json
+      - name: .claude/settings.local.json (JSONC) を検証（存在時のみ）
+        run: |
+          if [ -f .claude/settings.local.json ]; then
+            python -c "import json5, sys; json5.load(open(sys.argv[1]))" .claude/settings.local.json
+          else
+            echo "スキップ: .claude/settings.local.json は未追跡ファイルのため未配置"
+          fi
 
       - name: CLAUDE.md の存在と非空を確認
         run: test -s CLAUDE.md
