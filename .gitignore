@@ -16,6 +16,7 @@ Thumbs.db
 
 # Claude Code 個人ローカル設定 (チーム共有しないファイル)
 /claude-local.md
+.claude/settings.local.json
 
 # ブランチ保護ルール (メンテナのみ保持。公開不要)
 scripts/branch-protection.json
