@@ -5,6 +5,13 @@
 フォーマットは [Keep a Changelog 1.1.0](https://keepachangelog.com/ja/1.1.0/) に、
 バージョニングは [Semantic Versioning 2.0.0](https://semver.org/lang/ja/) に準拠します。
 
+## [0.4.0](https://github.com/sanpicule/claude-config/compare/claude-config-v0.3.0...claude-config-v0.4.0) (2026-05-12)
+
+
+### Features
+
+* claude-config の標準ディレクトリ構成を整備 ([b835308](https://github.com/sanpicule/claude-config/commit/b8353089239d938ec681302124fd5309c3a287ae))
+
 ## [0.3.0](https://github.com/sanpicule/claude-config/compare/claude-config-v0.2.0...claude-config-v0.3.0) (2026-04-22)
 
 
