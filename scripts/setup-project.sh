@@ -61,7 +61,7 @@ fetch_if_absent() {
 
 fetch_if_absent "CLAUDE.md" "$PROJECT_DIR/CLAUDE.md"
 fetch_if_absent ".claude/settings.json" "$CLAUDE_DIR/settings.json"
-fetch_if_absent ".claude/settings.local.json" "$CLAUDE_DIR/settings.local.json"
+fetch_if_absent ".claude/settings.template.jsonc" "$CLAUDE_DIR/settings.template.jsonc"
 fetch_if_absent ".claude/skills/example-code-reviewer/SKILL.md" "$SKILLS_DIR/example-code-reviewer/SKILL.md"
 fetch_if_absent ".claude/skills/example-test-writer/SKILL.md" "$SKILLS_DIR/example-test-writer/SKILL.md"
 
