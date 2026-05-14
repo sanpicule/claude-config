@@ -18,8 +18,11 @@ jobs:
       - name: .mcp.json (strict JSON) を検証
         run: python -m json.tool .mcp.json > /dev/null
 
-      - name: .claude/settings.json (JSONC) を検証
-        run: python -c "import json5, sys; json5.load(open(sys.argv[1]))" .claude/settings.json
+      - name: .claude/settings.json (strict JSON) を検証
+        run: python -m json.tool .claude/settings.json > /dev/null
+
+      - name: .claude/settings.template.jsonc (JSONC) を検証
+        run: python -c "import json5, sys; json5.load(open(sys.argv[1]))" .claude/settings.template.jsonc
 
       - name: .claude/settings.local.json (JSONC) を検証（存在時のみ）
         run: |
@@ -60,6 +63,7 @@ jobs:
         run: |
           test -f "$TEST_DIR/CLAUDE.md"
           test -f "$TEST_DIR/.claude/settings.json"
+          test -f "$TEST_DIR/.claude/settings.template.jsonc"
           test -f "$TEST_DIR/.claude/skills/example-code-reviewer/SKILL.md"
           test -f "$TEST_DIR/.claude/skills/example-test-writer/SKILL.md"
           echo "すべての期待ファイルが配置されました"
