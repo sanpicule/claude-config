@@ -5,6 +5,13 @@
 フォーマットは [Keep a Changelog 1.1.0](https://keepachangelog.com/ja/1.1.0/) に、
 バージョニングは [Semantic Versioning 2.0.0](https://semver.org/lang/ja/) に準拠します。
 
+## [0.4.1](https://github.com/sanpicule/claude-config/compare/claude-config-v0.4.0...claude-config-v0.4.1) (2026-05-16)
+
+
+### Bug Fixes
+
+* settings.json を有効な JSON に修正しテンプレートを分離 ([#11](https://github.com/sanpicule/claude-config/issues/11)) ([beaba46](https://github.com/sanpicule/claude-config/commit/beaba46e66517dbe2c6f633851b8103e1893c98d))
+
 ## [0.4.0](https://github.com/sanpicule/claude-config/compare/claude-config-v0.3.0...claude-config-v0.4.0) (2026-05-12)
 
 
