@@ -13,6 +13,12 @@ your-project/
 └── .claude/
     ├── settings.json             # Claude Code のチーム共有設定 (コミット対象)
     ├── settings.local.json       # 個人ローカル設定 (.gitignore で除外推奨)
+    ├── rules/                    # 規約系を分割配置 (CLAUDE.md から @import)
+    │   ├── coding.md
+    │   ├── git.md
+    │   ├── testing.md
+    │   ├── security.md
+    │   └── api.md
     └── skills/
         ├── example-code-reviewer/
         │   └── SKILL.md           # コードレビュースキルの例
@@ -21,6 +27,53 @@ your-project/
 ```
 
 各ファイルには使い方の例がコメントで記載されています。必要な箇所のコメントを外す、または書き換えて有効化してください（詳細は「テンプレートのカスタマイズ」をご参照ください）。
+
+## CLAUDE.md と共有ルールの分離
+
+このテンプレートは「CLAUDE.md にはプロジェクト固有の情報だけを書き、規約系は `.claude/rules/` に分割する」設計です。CLAUDE.md からは `@import` 構文で参照します。
+
+```
+CLAUDE.md                       ← 概要 / 環境 / 言語 / アーキテクチャ (プロジェクト固有)
+   │
+   │ @import
+   ▼
+.claude/rules/
+   ├── coding.md                ← 命名・型・関数設計
+   ├── git.md                   ← GitHub Flow + Conventional Commits
+   ├── testing.md               ← テスト原則・モック方針
+   ├── security.md              ← 秘匿情報・入力検証・認証
+   └── api.md                   ← API レイヤを編集するときだけ参照
+```
+
+メリット:
+- ルールを 1 箇所で直すだけで全プロジェクトに反映できる (DRY)。
+- CLAUDE.md が短く保てる → モデルが毎回読むコンテキストが軽くなる。
+- 「A プロジェクトだけ古い規約のまま」という事故が起きにくい。
+
+### 共有ルールの参照モード
+
+参照方法は **「コピー配信モード」** と **「共有参照モード」** の 2 通りをサポートします。
+プロジェクトの運用方針に合わせて選んでください。
+
+| モード | 参照記法 | 特徴 |
+|---|---|---|
+| **コピー配信** (デフォルト) | `@.claude/rules/git.md` | セットアップ時に各プロジェクトへ実体をコピー。各プロジェクトが独立。修正は配布元 + 各プロジェクトに再配布が必要。 |
+| **共有参照** | `@~/.claude-config/.claude/rules/git.md` | このリポジトリをユーザーホーム等に clone し、各プロジェクトの CLAUDE.md から共有パスを参照。修正が即時反映される。 |
+
+#### 共有参照モードのセットアップ例
+
+```bash
+# 1. このリポジトリをホーム直下に clone (1 回だけ)
+git clone https://github.com/sanpicule/claude-config.git ~/.claude-config
+
+# 2. 各プロジェクトの CLAUDE.md の @import を共有パスに書き換える
+#    例: @.claude/rules/git.md → @~/.claude-config/.claude/rules/git.md
+```
+
+#### プロジェクト個別に逸脱したいとき
+
+共有ルールから外したい項目だけ、プロジェクト直下の `.claude/rules/<同名>.md` に置いて CLAUDE.md の `@import` をそちらに向ければ、共有版より優先されます。
+たとえば「このプロジェクトだけ GitFlow を使う」場合は、`.claude/rules/git.md` を上書きして配置します。
 
 ## 使い方
 
